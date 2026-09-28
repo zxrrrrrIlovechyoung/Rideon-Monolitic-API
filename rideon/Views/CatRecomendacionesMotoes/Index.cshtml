@@ -1,0 +1,43 @@
+﻿@model IEnumerable<rideon.Models.CatRecomendacionesMoto>
+
+@{
+    ViewData["Title"] = "Recomendaciones";
+}
+
+<h1 class="mb-3">Recomendaciones de Motos</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Crear nueva</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Moto</th>
+            <th>@Html.DisplayNameFor(model => model.Titulo)</th>
+            <th>@Html.DisplayNameFor(model => model.Descripcion)</th>
+            <th>@Html.DisplayNameFor(model => model.KmRecomendado)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @(item.Moto?.CatMarcaMoto?.strMarca + " " + item.Moto?.strModelo + " " + item.Moto?.strCilindraje)
+                </td>
+
+                <td>@item.Titulo</td>
+                <td>@item.Descripcion</td>
+                <td>@item.KmRecomendado</td>
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.idRecomendacion">Editar</a> |
+                    <a asp-action="Details" asp-route-id="@item.idRecomendacion">Detalles</a> |
+                    <a asp-action="Delete" asp-route-id="@item.idRecomendacion">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

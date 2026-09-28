@@ -1,0 +1,145 @@
+﻿@model rideon.Models.UsuUsuario
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Crear Usuario</h1>
+
+<h4>UsuUsuario</h4>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+
+        <!-- 🔥 Activar validación bonita -->
+        <form asp-action="Create" method="post" class="needs-validation" novalidate>
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <!-- Nombre -->
+            <div class="form-group">
+                <label asp-for="strNombre" class="control-label"></label>
+                <input asp-for="strNombre" class="form-control" required />
+                <span asp-validation-for="strNombre" class="text-danger"></span>
+                <div class="invalid-feedback">El nombre es obligatorio.</div>
+            </div>
+
+            <!-- Apellidos -->
+            <div class="form-group">
+                <label asp-for="strApellidoPaterno" class="control-label"></label>
+                <input asp-for="strApellidoPaterno" class="form-control" required />
+                <span asp-validation-for="strApellidoPaterno" class="text-danger"></span>
+                <div class="invalid-feedback">El apellido paterno es obligatorio.</div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="strApellidoMaterno" class="control-label"></label>
+                <input asp-for="strApellidoMaterno" class="form-control" required />
+                <span asp-validation-for="strApellidoMaterno" class="text-danger"></span>
+                <div class="invalid-feedback">El apellido materno es obligatorio.</div>
+            </div>
+
+            <!-- Correo -->
+            <div class="form-group">
+                <label asp-for="strCorreo" class="control-label"></label>
+                <input asp-for="strCorreo" class="form-control" type="email" required />
+                <span asp-validation-for="strCorreo" class="text-danger"></span>
+                <div class="invalid-feedback">Ingrese un correo válido.</div>
+            </div>
+
+            <!-- Teléfono -->
+            <div class="form-group">
+                <label asp-for="strTelefono" class="control-label"></label>
+                <input asp-for="strTelefono" class="form-control" required />
+                <span asp-validation-for="strTelefono" class="text-danger"></span>
+                <div class="invalid-feedback">El teléfono es obligatorio.</div>
+            </div>
+
+            <!-- Sexo -->
+            <div class="form-group">
+                <label asp-for="idSexo" class="control-label"></label>
+                <select asp-for="idSexo" class="form-control" asp-items="ViewBag.idSexo" required></select>
+                <span asp-validation-for="idSexo" class="text-danger"></span>
+                <div class="invalid-feedback">Seleccione un sexo.</div>
+            </div>
+
+            <!-- Contraseña -->
+            <div class="form-group">
+                <label asp-for="strContrasena" class="control-label"></label>
+                <input asp-for="strContrasena" class="form-control" type="password" required />
+                <small class="form-text text-muted">
+                    Debe tener 6–18 caracteres, incluir letras, números y símbolos.
+                </small>
+                <span asp-validation-for="strContrasena" class="text-danger"></span>
+                <div class="invalid-feedback">La contraseña es obligatoria.</div>
+            </div>
+
+            <!-- Fecha de Nacimiento -->
+            <div class="form-group">
+                <label asp-for="FechaNacimiento" class="control-label"></label>
+                <input asp-for="FechaNacimiento" class="form-control" type="date" required />
+                <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
+                <div class="invalid-feedback">Seleccione una fecha válida.</div>
+            </div>
+
+            <!-- Select2 -->
+            <div class="form-group">
+                <label>Motos Asignadas</label>
+                <select id="motos" name="SelectedMotos"
+                        class="form-control" multiple="multiple" style="width:100%">
+                </select>
+                <small class="form-text text-muted">Buscar por marca o modelo.</small>
+            </div>
+
+            <div class="form-group mt-3">
+                <input type="submit" value="Crear" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Volver a la lista</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+
+    <!-- Select2 -->
+    <script>
+        $(document).ready(function () {
+            $('#motos').select2({
+                width: '100%',
+                placeholder: "Buscar moto por marca o modelo",
+                minimumInputLength: 1,
+                ajax: {
+                    url: '/UsuUsuarios/SearchMotos',
+                    dataType: 'json',
+                    delay: 250,
+                    data: params => ({ term: params.term }),
+                    processResults: data => ({
+                        results: data.map(item => ({
+                            id: item.idMoto,
+                            text: item.text
+                        }))
+                    })
+                }
+            });
+        });
+    </script>
+
+    <!-- 🔥 Activar validación bonita Bootstrap -->
+    <script>
+        (() => {
+            'use strict';
+            const forms = document.querySelectorAll('.needs-validation');
+
+            forms.forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        })();
+    </script>
+}

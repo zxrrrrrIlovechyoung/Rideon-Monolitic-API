@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "Recuperar contraseña";
+}
+
+<div class="container mt-5">
+    <h3>¿Olvidaste tu contraseña?</h3>
+    <p>Ingresa tu correo y te enviaremos un enlace para restablecerla.</p>
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+    @if (TempData["OK"] != null)
+    {
+        <div class="alert alert-success">@TempData["OK"]</div>
+    }
+
+    <form asp-action="Recuperar" method="post">
+        <div class="form-group">
+            <label>Correo registrado</label>
+            <input type="email" name="correo" class="form-control" required />
+        </div>
+        <button class="btn btn-primary mt-3">Enviar enlace</button>
+    </form>
+</div>

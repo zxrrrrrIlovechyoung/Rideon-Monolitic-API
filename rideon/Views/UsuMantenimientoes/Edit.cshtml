@@ -1,0 +1,67 @@
+﻿@model rideon.Models.UsuMantenimiento
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Editar Mantenimiento</h1>
+
+<h4>UsuMantenimiento</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="idMantenimientoUsuario" />
+
+            <!-- Usuario -->
+            <div class="form-group">
+                <label asp-for="idUsuario" class="control-label">Usuario</label>
+                <select asp-for="idUsuario" class="form-control" asp-items="ViewBag.idUsuario"></select>
+                <span asp-validation-for="idUsuario" class="text-danger"></span>
+            </div>
+
+            <!-- Moto (CatMoto) -->
+            <div class="form-group">
+                <label asp-for="idMotoUsuario" class="control-label">Moto</label>
+                <select asp-for="idMotoUsuario" class="form-control" asp-items="ViewBag.idMotoUsuario"></select>
+                <span asp-validation-for="idMotoUsuario" class="text-danger"></span>
+            </div>
+
+            <!-- CatMantenimiento -->
+            <div class="form-group">
+                <label asp-for="idCatMantenimiento" class="control-label">Tipo de Mantenimiento</label>
+                <select asp-for="idCatMantenimiento" class="form-control" asp-items="ViewBag.idCatMantenimiento"></select>
+                <span asp-validation-for="idCatMantenimiento" class="text-danger"></span>
+            </div>
+
+            <!-- Fecha -->
+            <div class="form-group">
+                <label asp-for="dtFecha" class="control-label">Fecha</label>
+                <input asp-for="dtFecha" class="form-control" />
+                <span asp-validation-for="dtFecha" class="text-danger"></span>
+            </div>
+
+            <!-- Notas -->
+            <div class="form-group">
+                <label asp-for="strNotas" class="control-label">Notas</label>
+                <input asp-for="strNotas" class="form-control" />
+                <span asp-validation-for="strNotas" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Guardar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Volver al listado</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

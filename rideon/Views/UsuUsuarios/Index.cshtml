@@ -1,0 +1,78 @@
+﻿@model IEnumerable<rideon.Models.UsuUsuario>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Usuarios</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Crear Nuevo Usuario</a>
+</p>
+
+<div style="max-height:600px; overflow-y:auto;">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.strNombre)</th>
+                <th>@Html.DisplayNameFor(model => model.strApellidoPaterno)</th>
+                <th>@Html.DisplayNameFor(model => model.strApellidoMaterno)</th>
+                <th>@Html.DisplayNameFor(model => model.strCorreo)</th>
+                <th>@Html.DisplayNameFor(model => model.strTelefono)</th>
+                <th>Sexo</th>
+                <th>Tipo Usuario</th>
+                <th>@Html.DisplayNameFor(model => model.activo)</th>
+                <th>@Html.DisplayNameFor(model => model.UsuValidacion)</th>
+                <th>@Html.DisplayNameFor(model => model.dtFechaDeRegistro)</th>
+                <th>@Html.DisplayNameFor(model => model.FechaNacimiento)</th>
+                <th>Motos Asignadas</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.strNombre)</td>
+                    <td>@Html.DisplayFor(modelItem => item.strApellidoPaterno)</td>
+                    <td>@Html.DisplayFor(modelItem => item.strApellidoMaterno)</td>
+                    <td>@Html.DisplayFor(modelItem => item.strCorreo)</td>
+                    <td>@Html.DisplayFor(modelItem => item.strTelefono)</td>
+                    <td>@(item.UsuCatSexo != null ? item.UsuCatSexo.strDescripcion : "—")</td>
+                    <td>@(item.CatTipoUsuario != null ? item.CatTipoUsuario.strDescripcion : "—")</td>
+
+                    <td>@Html.DisplayFor(modelItem => item.activo)</td>
+                    <td>@Html.DisplayFor(modelItem => item.UsuValidacion)</td>
+                    <td>@Html.DisplayFor(modelItem => item.dtFechaDeRegistro)</td>
+                    <td>@Html.DisplayFor(modelItem => item.FechaNacimiento)</td>
+
+                    <td>
+                        @if (item.UsuUsuarioMotos != null && item.UsuUsuarioMotos.Any())
+                        {
+                            <ul>
+                                @foreach (var rel in item.UsuUsuarioMotos)
+                                {
+                                    <li>
+                                        @(rel.CatMoto != null
+                                                                    ? $"{rel.CatMoto.CatMarcaMoto?.strMarca} - {rel.CatMoto.strModelo} ({rel.CatMoto.strCilindraje})"
+                                                                    : "Moto sin datos")
+                        </li>
+                                                }
+                            </ul>
+                        }
+                        else
+                        {
+                            <span>Sin motos asignadas</span>
+                        }
+                    </td>
+
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.idUsuario">Editar</a> |
+                        <a asp-action="Details" asp-route-id="@item.idUsuario">Detalles</a> |
+                        <a asp-action="Delete" asp-route-id="@item.idUsuario">Eliminar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

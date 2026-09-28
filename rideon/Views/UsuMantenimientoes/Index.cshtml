@@ -1,0 +1,52 @@
+﻿@model IEnumerable<rideon.Models.UsuMantenimiento>
+
+@{
+    ViewData["Title"] = "Mantenimientos";
+}
+
+<h1>Mantenimientos</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Registrar Nuevo</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Usuario</th>
+            <th>Moto</th>
+            <th>Mantenimiento</th>
+            <th>Fecha</th>
+            <th>Notas</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <!-- Usuario -->
+                <td>@item.Usuario.strNombre</td>
+
+                <!-- Moto -->
+                <td>@item.Moto.CatMoto.CatMarcaMoto?.strMarca - @item.Moto.CatMoto?.strModelo</td>
+
+                <!-- Mantenimiento -->
+                <td>@item.CatMantenimiento.Nombre</td>
+
+                <!-- Fecha -->
+                <td>@item.dtFecha.ToString("dd/MM/yyyy")</td>
+
+                <!-- Notas -->
+                <td>@item.strNotas</td>
+
+                <!-- Acciones -->
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.idMantenimientoUsuario">Editar</a> |
+                    <a asp-action="Details" asp-route-id="@item.idMantenimientoUsuario">Detalles</a> |
+                    <a asp-action="Delete" asp-route-id="@item.idMantenimientoUsuario">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

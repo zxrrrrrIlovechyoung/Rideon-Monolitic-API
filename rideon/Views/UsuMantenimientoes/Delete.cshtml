@@ -1,0 +1,60 @@
+﻿@model rideon.Models.UsuMantenimiento
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Eliminar Mantenimiento</h1>
+
+<h3>¿Estás seguro que deseas eliminar este registro?</h3>
+<div>
+    <h4>UsuMantenimiento</h4>
+    <hr />
+    <dl class="row">
+        <!-- Usuario -->
+        <dt class="col-sm-2">
+            Usuario
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Usuario.strNombre
+        </dd>
+
+        <!-- Moto -->
+        <dt class="col-sm-2">
+            Moto
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Moto.CatMoto.CatMarcaMoto?.strMarca - @Model.Moto.CatMoto?.strModelo
+        </dd>
+
+        <!-- Mantenimiento -->
+        <dt class="col-sm-2">
+            Mantenimiento
+        </dt>
+        <dd class="col-sm-10">
+            @Model.CatMantenimiento.Nombre
+        </dd>
+
+        <!-- Fecha -->
+        <dt class="col-sm-2">
+            Fecha
+        </dt>
+        <dd class="col-sm-10">
+            @Model.dtFecha.ToString("dd/MM/yyyy")
+        </dd>
+
+        <!-- Notas -->
+        <dt class="col-sm-2">
+            Notas
+        </dt>
+        <dd class="col-sm-10">
+            @Model.strNotas
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="idMantenimientoUsuario" />
+        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+        <a asp-action="Index">Volver al listado</a>
+    </form>
+</div>

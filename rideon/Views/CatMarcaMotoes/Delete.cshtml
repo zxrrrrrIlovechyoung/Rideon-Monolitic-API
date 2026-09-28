@@ -1,0 +1,35 @@
+﻿@model rideon.Models.CatMarcaMoto
+
+@{
+    ViewData["Title"] = "Eliminar Marca";
+}
+
+<h1 class="mb-3 text-danger">Eliminar marca</h1>
+
+<h4>¿Estás seguro que deseas eliminar esta marca?</h4>
+<p class="text-muted">Esta acción no se puede deshacer.</p>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+
+        <dl class="row">
+            <dt class="col-sm-3 fw-bold">
+                @Html.DisplayNameFor(model => model.strMarca)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.strMarca)
+            </dd>
+        </dl>
+
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="idMarca" />
+
+            <button type="submit" class="btn btn-danger me-2">Eliminar</button>
+
+            <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+        </form>
+
+    </div>
+</div>

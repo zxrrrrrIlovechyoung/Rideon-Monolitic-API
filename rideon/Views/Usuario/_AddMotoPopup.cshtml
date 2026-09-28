@@ -1,0 +1,213 @@
+﻿@model dynamic
+<div class="modal fade" id="addMotoModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+        <div class="modal-content modal-estetico">
+
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold">Agregar moto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Buscar moto:</label>
+                    <input id="txtBuscarMoto" type="text" class="form-control input-estetico"
+                           placeholder="Buscar por marca, modelo o cilindraje…" onkeyup="buscarMoto()" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Filtrar por tipo:</label>
+                    <select id="filtroTipoMoto" class="form-select select-estetico" onchange="buscarMoto()">
+                        <option value="">Todos</option>
+                        @foreach (var tipo in ViewBag.CatTipos)
+                        {
+                            <option value="@tipo.idTipoMoto">@tipo.strTipoMoto</option>
+                        }
+                    </select>
+                </div>
+
+                <h5 class="mt-4 fw-bold">Catálogo de motos</h5>
+
+                <div id="listaCatalogo"
+                     class="catalogo-container">
+                    <p>Cargando catálogo…</p>
+                </div>
+
+                <hr />
+                <form asp-action="AddUsuarioMoto" asp-controller="Usuario" method="post">
+
+                    <input type="hidden" id="idMotoSeleccionada" name="idMoto" />
+
+                    <div id="camposUsuarioMoto" class="mt-3" style="display:none;">
+
+                        <h5 class="mb-3 fw-bold">Datos de tu moto</h5>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Placas</label>
+                            <input type="text" name="strPlacas" class="form-control input-estetico" maxlength="6" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Odómetro total (km)</label>
+                            <input type="number" name="odoTotal" class="form-control input-estetico"
+                                   oninput="validarOdometro(this)" required />
+
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Fecha del último servicio</label>
+                            <input type="date" name="fechaUltimoServicio" class="form-control input-estetico" required />
+                        </div>
+
+                        <button type="submit" class="btn btn-gradient w-100 mt-2">
+                            Guardar moto
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    function openAddMotoModal() {
+        document.getElementById("addMotoModal").style.display = "block";
+        buscarMoto();
+    }
+
+    function closeAddMotoModal() {
+        document.getElementById("addMotoModal").style.display = "none";
+    }
+
+    function buscarMoto() {
+
+        var q = document.getElementById("txtBuscarMoto").value;
+        var tipo = document.getElementById("filtroTipoMoto").value;
+
+        fetch(`/Usuario/BuscarMotos?q=${q}&tipo=${tipo}`)
+            .then(r => r.json())
+            .then(data => {
+
+                let cont = document.getElementById("listaCatalogo");
+                cont.innerHTML = "";
+
+                if (data.length === 0) {
+                    cont.innerHTML = "<p>No se encontraron motos.</p>";
+                    return;
+                }
+
+                data.forEach(m => {
+
+                    let item = document.createElement("div");
+                    item.classList.add("itemMotoCatalogo");
+                    item.classList.add("moto-card");
+                    item.onclick = () => seleccionarMoto(m);
+
+                    item.innerHTML = `
+                        <img src="${m.imgFoto}" class="moto-img" />
+                        <div>
+                            <strong>${m.marca} ${m.strModelo}</strong><br>
+                            <small>${m.strCilindraje} | ${m.tipoMoto}</small>
+                        </div>
+                    `;
+
+                    cont.appendChild(item);
+                });
+            });
+    }
+
+    function seleccionarMoto(moto) {
+
+        document.querySelectorAll(".itemMotoCatalogo").forEach(x => {
+            x.classList.remove("moto-selected");
+        });
+
+        event.currentTarget.classList.add("moto-selected");
+
+        document.getElementById("idMotoSeleccionada").value = moto.idMoto;
+
+        document.getElementById("camposUsuarioMoto").style.display = "block";
+    }
+
+</script>
+<script>
+    function validarOdometro(input) {
+        if (input.value.length > 7) {
+            input.value = input.value.slice(0, 7);
+        }
+    }
+</script>
+<style>
+    .modal-estetico {
+        border-radius: 20px !important;
+        border: none;
+        padding: 10px;
+        box-shadow: 0 0 25px rgba(0,0,0,0.18);
+    }
+    .input-estetico, .select-estetico {
+        border-radius: 10px;
+        border: 1px solid #cfd8dc;
+        padding: 10px;
+    }
+
+        .input-estetico:focus, .select-estetico:focus {
+            border-color: #48D8D5;
+            box-shadow: 0 0 0 3px rgba(72,216,213,0.25);
+        }
+    .catalogo-container {
+        max-height: 260px;
+        overflow-y: auto;
+        border-radius: 10px;
+        padding: 10px;
+        background: #f9f9f9;
+        border: 1px solid #e0e0e0;
+    }
+
+    .moto-card {
+        background: white;
+        border: 1px solid #ddd;
+        padding: 12px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        transition: 0.2s ease;
+    }
+
+        .moto-card:hover {
+            transform: scale(1.02);
+            border-color: #48D8D5;
+        }
+
+    .moto-img {
+        width: 70px;
+        height: 70px;
+        border-radius: 8px;
+        object-fit: cover;
+    }
+
+    .moto-selected {
+        border: 2px solid #48D8D5 !important;
+        background: #ECFFFE !important;
+    }
+    .btn-gradient {
+        padding: 0.6rem 1rem;
+        background: linear-gradient(to right, #7DF1EF, #48D8D5);
+        color: #fff !important;
+        border: none;
+        border-radius: 10px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s ease;
+    }
+
+        .btn-gradient:hover {
+            background: linear-gradient(to right, #48D8D5, #7DF1EF);
+        }
+</style>

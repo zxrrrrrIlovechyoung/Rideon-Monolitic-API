@@ -1,0 +1,35 @@
+﻿@model IEnumerable<rideon.Models.CatTipoUsuario>
+
+@{
+    ViewData["Title"] = "Tipos de Usuario";
+}
+
+<h1>Tipos de Usuario</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Agregar Tipo de Usuario</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Descripción</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.strDescripcion</td>
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.idTipoUsuario">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.idTipoUsuario">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.idTipoUsuario">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

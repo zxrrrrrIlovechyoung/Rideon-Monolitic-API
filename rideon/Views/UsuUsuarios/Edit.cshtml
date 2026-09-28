@@ -1,0 +1,134 @@
+﻿@model rideon.Models.UsuUsuario
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Editar Usuario</h1>
+
+<h4>UsuUsuario</h4>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="idUsuario" />
+            <div class="form-group">
+                <label asp-for="strNombre" class="control-label"></label>
+                <input asp-for="strNombre" class="form-control" />
+                <span asp-validation-for="strNombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="strApellidoPaterno" class="control-label"></label>
+                <input asp-for="strApellidoPaterno" class="form-control" />
+                <span asp-validation-for="strApellidoPaterno" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="strApellidoMaterno" class="control-label"></label>
+                <input asp-for="strApellidoMaterno" class="form-control" />
+                <span asp-validation-for="strApellidoMaterno" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="strCorreo" class="control-label"></label>
+                <input asp-for="strCorreo" class="form-control" type="email" />
+                <span asp-validation-for="strCorreo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="strTelefono" class="control-label"></label>
+                <input asp-for="strTelefono" class="form-control" />
+                <span asp-validation-for="strTelefono" class="text-danger"></span>
+            </div>
+
+            <!-- Sexo -->
+            <div class="form-group">
+                <label asp-for="idSexo" class="control-label"></label>
+                <select asp-for="idSexo" class="form-control" asp-items="ViewBag.idSexo"></select>
+                <span asp-validation-for="idSexo" class="text-danger"></span>
+            </div>
+
+            <!-- Tipo de Usuario -->
+            <div class="form-group">
+                <label asp-for="idTipoUsuario" class="control-label"></label>
+                <select asp-for="idTipoUsuario" class="form-control" asp-items="ViewBag.idTipoUsuario"></select>
+                <span asp-validation-for="idTipoUsuario" class="text-danger"></span>
+            </div>
+
+            <!-- Contraseña -->
+            <div class="form-group">
+                <label asp-for="strContrasena" class="control-label"></label>
+                <input asp-for="strContrasena" class="form-control" type="password" />
+                <small class="form-text text-muted">
+                    Si no escribe nada, se conservará la contraseña actual.
+                </small>
+                <span asp-validation-for="strContrasena" class="text-danger"></span>
+            </div>
+
+            <!-- Activo y Validación -->
+            <div class="form-group form-check">
+                <input class="form-check-input" asp-for="activo" />
+                <label class="form-check-label" asp-for="activo"></label>
+            </div>
+            <div class="form-group form-check">
+                <input class="form-check-input" asp-for="UsuValidacion" />
+                <label class="form-check-label" asp-for="UsuValidacion"></label>
+            </div>
+
+            <!-- Fecha de nacimiento -->
+            <div class="form-group">
+                <label asp-for="FechaNacimiento" class="control-label"></label>
+                <input asp-for="FechaNacimiento" class="form-control" type="date" />
+                <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
+            </div>
+
+            <!-- ✅ Motos asignadas con búsqueda AJAX -->
+            <select id="motos" name="SelectedMotos" class="form-control" multiple="multiple" style="width:100%">
+                @if (ViewBag.SelectedMotos != null)
+                {
+                    foreach (var moto in ViewBag.SelectedMotos)
+                    {
+                        <option value="@moto.id" selected="selected">@moto.text</option>
+                    }
+                }
+            </select>
+
+
+            <div class="form-group mt-3">
+                <input type="submit" value="Guardar" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Volver a la lista</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $(document).ready(function () {
+            $('#motos').select2({
+                width: '100%',
+                placeholder: "Buscar moto por marca o modelo",
+                minimumInputLength: 1,
+                ajax: {
+                    url: '/UsuUsuarios/SearchMotos',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return { term: params.term };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (item) {
+                                return { id: item.idMoto, text: item.text };
+                            })
+                        };
+                    }
+                }
+            });
+        });
+    </script>
+}
+
+

@@ -1,0 +1,75 @@
+﻿@model rideon.Models.UsuUsuario
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Eliminar Usuario</h1>
+
+<h3>¿Estás seguro de que quieres eliminar este usuario?</h3>
+<div>
+    <h4>UsuUsuario</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.strNombre)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.strNombre)</dd>
+
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.strApellidoPaterno)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.strApellidoPaterno)</dd>
+
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.strApellidoMaterno)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.strApellidoMaterno)</dd>
+
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.strCorreo)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.strCorreo)</dd>
+
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.strTelefono)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.strTelefono)</dd>
+
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.UsuCatSexo)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.UsuCatSexo.strDescripcion)</dd>
+
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.CatTipoUsuario)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.CatTipoUsuario.strDescripcion)</dd>
+
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.activo)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.activo)</dd>
+
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.UsuValidacion)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.UsuValidacion)</dd>
+
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.dtFechaDeRegistro)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.dtFechaDeRegistro)</dd>
+
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.FechaNacimiento)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.FechaNacimiento)</dd>
+
+        <!-- ✅ Motos asignadas -->
+        <dt class="col-sm-2">Motos Asignadas</dt>
+        <dd class="col-sm-10">
+            @if (Model.UsuUsuarioMotos != null && Model.UsuUsuarioMotos.Any())
+            {
+                <ul>
+                    @foreach (var rel in Model.UsuUsuarioMotos)
+                    {
+                        <li>
+                            @(rel.CatMoto != null
+                                                ? $"{rel.CatMoto.CatMarcaMoto?.strMarca} - {rel.CatMoto.strModelo} ({rel.CatMoto.strCilindraje})"
+                                                : "Moto sin datos")
+                </li>
+                                }
+                </ul>
+            }
+            else
+            {
+                <span>Sin motos asignadas</span>
+            }
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="idUsuario" />
+        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+        <a asp-action="Index" class="btn btn-secondary">Volver a la lista</a>
+    </form>
+</div>

@@ -1,0 +1,221 @@
+@{
+    ViewData["Title"] = "Inicio Usuario";
+    var tipoUsuario = Context.Session.GetInt32("TipoUsuario");
+    var nombreUsuario = Context.Session.GetString("UsuarioNombre");
+    Layout = null;
+}
+@model List<rideon.Models.UsuUsuarioMoto>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RideOn</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="@Url.Content("~/css/index.css")" />
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    @await Html.PartialAsync("_AddMotoPopup")
+    @await Html.PartialAsync("_DeleteMotoPopup")
+
+    <header class="main-header" id="mainHeader">
+        <div class="header-top">
+            <button class="menu-toggle btn" id="menuToggle">
+                <span class="menu-icon" id="menuIcon">☰</span>
+            </button>
+            <h1 class="logo" id="logo">RideOn</h1>
+        </div>
+
+        <div class="header-divider" id="headerDivider"></div>
+
+        <div class="menu-lateral" id="menuLateral">
+            <ul class="menu-list">
+                @if (string.IsNullOrEmpty(nombreUsuario))
+                {
+                    <li><a href="/Account/Login">Iniciar sesión</a></li>
+                    <li><a href="/Account/Register">Registrarse</a></li>
+                }
+                else
+                {
+                    <li>Hola, @nombreUsuario</li>
+                    <li><a href="/Account/Logout">Cerrar sesión</a></li>
+                }
+
+                <li>Inicio</li>
+                <li>Mis rutas</li>
+                <li>Servicios</li>
+                <li>Configuración</li>
+                <li>Nosotros</li>
+
+                @if (tipoUsuario == 1)
+                {
+                    <li><a href="/Home/Index">Administración</a></li>
+                    <li><a href="/Home/Usuarios">CRUD Usuarios</a></li>
+                }
+            </ul>
+        </div>
+    </header>
+
+    <main class="main-layout">
+        <div class="panel panel-left">
+            @if (Model != null && Model.Any())
+            {
+                var primeraMoto = Model[0];
+                <div class="moto-box">
+                    <div class="moto-top" style="display:flex; align-items:center; justify-content:space-between;">
+                        <div class="moto-options-btn" id="btnMotoOptions" style="cursor:pointer; display:flex; align-items:center; justify-content:center; width:38px; height:38px;">
+                            <i class="fas fa-bars">☰</i>
+                        </div>
+                        <h2 class="moto-model" style="margin:0;">Mi @(primeraMoto.CatMoto?.strModelo ?? "")</h2>
+                    </div>
+
+                    <div class="moto-options-menu" id="motoOptionsMenu" style="display:none; position:absolute; top:50px; right:10px;">
+                       <button onclick="abrirPopupEliminar(@primeraMoto.idUsuarioMoto)">Eliminar</button>
+                    </div>
+
+                    <img src="@Url.Content(primeraMoto.CatMoto?.imgFoto ?? "~/img/default-moto.png")"
+                         alt="@(primeraMoto.CatMoto?.strModelo ?? "Moto")"
+                         style="width: clamp(200px, 30vw, 400px);" />
+
+                    <div><p></p></div>
+                    <h3 style="font-size: 16px;">Información general de tu moto</h3>
+                    <p>Placas: @(primeraMoto.strPlacas ?? "—")</p>
+                    <p>ODO: @(primeraMoto.odoTotal ?? 0) km</p>
+                    <p>Último servicio: @(primeraMoto.fechaUltimoServicio?.ToString("dd/MM/yyyy") ?? "—")</p>
+                </div>
+            }
+            else
+            {
+                <p>No tienes motos asignadas</p>
+                <button class="btn-gradient btnAddMoto" data-bs-toggle="modal" data-bs-target="#addMotoModal">
+                    Agregar moto
+                </button>
+            }
+        </div>
+
+        <div class="panel panel-center">
+            <div class="servicios-container">
+                <h3 class="recoda">Recomendaciones inteligentes</h3>
+                @{
+                    if (Model != null && Model.Any())
+                    {
+                        var recomendaciones = ViewBag.Recomendaciones as List<rideon.Models.CatRecomendacionesMoto>;
+                        if (recomendaciones != null && recomendaciones.Any())
+                        {
+                            <ul class="recomendaciones">
+                                @foreach (var rec in recomendaciones)
+                                {
+                                    <li>
+                                        <strong>@rec.Titulo</strong><br />
+                                        @rec.Descripcion<br />
+                                        <span style="font-size:12px; color:gray;">
+                                            (Recomendado a los @rec.KmRecomendado km)
+                                        </span>
+                                    </li>
+                                }
+                            </ul>
+                        }
+                        else
+                        {
+                            <p>No hay recomendaciones para tu moto aún.</p>
+                        }
+                    }
+                    else
+                    {
+                        <p>Registra una moto para ver recomendaciones.</p>
+                    }
+                }
+            </div>
+
+            <button class="btn-gradient">Añadir Servicio</button>
+
+            <div class="servicios-container">
+                <h2>Servicios Realizados</h2>
+
+                <div class="servicio-item">
+                    <div class="km">500 km</div>
+                    <div class="descripcion">Limpieza de cadena</div>
+                    <a href="#" class="detalles-btn">Detalles</a>
+                </div>
+                <div class="servicio-item">
+                    <div class="km">1000 km</div>
+                    <div class="descripcion">Limpieza de cadena</div>
+                    <a href="#" class="detalles-btn">Detalles</a>
+                </div>
+                <div class="servicio-item">
+                    <div class="km">1500 km</div>
+                    <div class="descripcion">Limpieza de cadena</div>
+                    <a href="#" class="detalles-btn">Detalles</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-right">
+            <h3 class="section-title">Mi ruta hoy</h3>
+            <div class="map-box">
+                <img src="@Url.Content("~/img/gps.jpeg")" width="350" />
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="@Url.Content("~/js/popup-moto.js")"></script>
+
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const menuIcon = document.getElementById('menuIcon');
+        const logo = document.getElementById('logo');
+        const mainHeader = document.getElementById('mainHeader');
+        const menuLateral = document.getElementById('menuLateral');
+        const headerDivider = document.getElementById('headerDivider');
+
+        let menuAbierto = false;
+
+        menuToggle.addEventListener('click', () => {
+            menuAbierto = !menuAbierto;
+            menuIcon.textContent = menuAbierto ? '✕' : '☰';
+            logo.classList.toggle('oculto', menuAbierto);
+            mainHeader.classList.toggle('expandido', menuAbierto);
+            menuLateral.classList.toggle('visible', menuAbierto);
+            headerDivider.classList.toggle('desplazado', menuAbierto);
+        });
+
+        let motoAEliminar = 0;
+
+        function abrirPopupEliminar(idUsuarioMoto) {
+            motoAEliminar = idUsuarioMoto;
+            document.getElementById("idMotoEliminar").value = idUsuarioMoto;
+            document.getElementById("popupEliminarMoto").style.display = "flex";
+        }
+
+        document.getElementById("closeDeleteMoto").onclick =
+        document.getElementById("cancelDeleteMoto").onclick = function () {
+            document.getElementById("popupEliminarMoto").style.display = "none";
+        };
+
+        document.getElementById("confirmDeleteMoto").onclick = async function () {
+            const idUsuarioMoto = document.getElementById("idMotoEliminar").value;
+            const password = document.getElementById("passwordEliminar").value;
+
+            const formData = new FormData();
+            formData.append("idUsuarioMoto", idUsuarioMoto);
+            formData.append("password", password);
+
+            const res = await fetch("/Usuario/EliminarMoto", {
+                method: "POST",
+                body: formData
+            });
+
+            const json = await res.json();
+            alert(json.message);
+
+            if (json.success) {
+                location.reload();
+            }
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+﻿@model IEnumerable<rideon.Models.CatMoto>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Lista de Motos</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Crear Nueva</a>
+</p>
+
+<table class="table table-striped table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.CatMarcaMoto)</th>
+            <th>@Html.DisplayNameFor(model => model.CatTipoMoto)</th>
+            <th>@Html.DisplayNameFor(model => model.strModelo)</th>
+            <th>@Html.DisplayNameFor(model => model.strCilindraje)</th>
+            <th>Foto</th>
+            <th>@Html.DisplayNameFor(model => model.strDescripcion)</th>
+            <th>@Html.DisplayNameFor(model => model.strHp)</th>
+            <th>@Html.DisplayNameFor(model => model.strNm)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.CatMarcaMoto?.strMarca</td>
+                <td>@item.CatTipoMoto?.strTipoMoto</td>
+                <td>@item.strModelo</td>
+                <td>@item.strCilindraje</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.imgFoto))
+                    {
+                        <img src="@item.imgFoto"
+                             style="width:120px; height:120px; object-fit:cover; border-radius:8px; border:1px solid #ccc;" />
+                    }
+                    else
+                    {
+                        <span>No Image</span>
+                    }
+                </td>
+
+                <td>@item.strDescripcion</td>
+                <td>@item.strHp</td>
+                <td>@item.strNm</td>
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.idMoto" class="btn btn-sm btn-warning">Editar</a>
+                    <a asp-action="Details" asp-route-id="@item.idMoto" class="btn btn-sm btn-info">Detalles</a>
+                    <a asp-action="Delete" asp-route-id="@item.idMoto" class="btn btn-sm btn-danger">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

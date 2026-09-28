@@ -1,0 +1,79 @@
+﻿@model rideon.Models.CatMoto
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>CatMoto</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-controller="CatMotoes" asp-action="Create" method="post" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="idMarca"></label>
+                <select asp-for="idMarca" asp-items="ViewBag.idMarca" class="form-control"></select>
+                <span asp-validation-for="idMarca" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="idTipoMoto"></label>
+                <select asp-for="idTipoMoto" asp-items="ViewBag.idTipoMoto" class="form-control"></select>
+                <span asp-validation-for="idTipoMoto" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="strModelo"></label>
+                <input asp-for="strModelo" class="form-control" />
+                <span asp-validation-for="strModelo" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="strCilindraje"></label>
+                <input asp-for="strCilindraje" class="form-control" />
+                <span asp-validation-for="strCilindraje" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label>Imagen</label>
+                <input type="file" name="foto" class="form-control" required />
+                <span asp-validation-for="foto" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="strDescripcion"></label>
+                <input asp-for="strDescripcion" class="form-control" />
+                <span asp-validation-for="strDescripcion" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="strHp"></label>
+                <input asp-for="strHp" class="form-control" />
+                <span asp-validation-for="strHp" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="strNm"></label>
+                <input asp-for="strNm" class="form-control" />
+                <span asp-validation-for="strNm" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-3">Crear</button>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

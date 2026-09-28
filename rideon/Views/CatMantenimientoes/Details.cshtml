@@ -1,0 +1,42 @@
+﻿@model rideon.Models.CatMantenimiento
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>CatMantenimiento</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.strDescripcion)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.strDescripcion)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.KmRecomendado)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.KmRecomendado)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Moto)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Moto.imgFoto)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.idCatMantenimiento">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

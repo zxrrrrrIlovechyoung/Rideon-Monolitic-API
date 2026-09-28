@@ -1,0 +1,21 @@
+﻿@model rideon.Models.RestablecerViewModel
+
+@{
+    ViewData["Title"] = "Restablecer contraseña";
+}
+
+<h2>Restablecer contraseña</h2>
+
+<form asp-action="Restablecer" method="post">
+    <input type="hidden" asp-for="Correo" />
+
+    <div class="mb-3">
+        <label asp-for="NuevaContrasena" class="form-label">Nueva contraseña</label>
+        <input asp-for="NuevaContrasena" class="form-control" />
+        <span asp-validation-for="NuevaContrasena" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Restablecer</button>
+</form>
+
+<partial name="_ValidationScriptsPartial" />

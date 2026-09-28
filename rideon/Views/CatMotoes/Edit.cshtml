@@ -1,0 +1,93 @@
+﻿@model rideon.Models.CatMoto
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Editar Moto</h1>
+<hr />
+
+<div class="row">
+    <div class="col-md-5">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <input type="hidden" asp-for="idMoto" />
+
+            <div class="form-group">
+                <label asp-for="idMarca" class="control-label"></label>
+                <select asp-for="idMarca" class="form-control" asp-items="ViewBag.idMarca"></select>
+                <span asp-validation-for="idMarca" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="idTipoMoto" class="control-label"></label>
+                <select asp-for="idTipoMoto" class="form-control" asp-items="ViewBag.idTipoMoto"></select>
+                <span asp-validation-for="idTipoMoto" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="strModelo" class="control-label"></label>
+                <input asp-for="strModelo" class="form-control" />
+                <span asp-validation-for="strModelo" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="strCilindraje" class="control-label"></label>
+                <input asp-for="strCilindraje" class="form-control" />
+                <span asp-validation-for="strCilindraje" class="text-danger"></span>
+            </div>
+
+            <!-- Mostrar imagen actual -->
+            <div class="form-group">
+                <label>Imagen Actual</label>
+                <br />
+                @if (!string.IsNullOrEmpty(Model.imgFoto))
+                {
+                    <img src="@Model.imgFoto" style="width:180px; border-radius:8px; border:1px solid #ccc;" />
+                }
+                else
+                {
+                    <p>No tiene imagen.</p>
+                }
+            </div>
+
+            <!-- Subir nueva imagen -->
+            <div class="form-group">
+                <label>Nueva Imagen (opcional)</label>
+                <input type="file" name="foto" class="form-control" />
+                <span class="text-danger">@ViewBag.ImageError</span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="strDescripcion" class="control-label"></label>
+                <input asp-for="strDescripcion" class="form-control" />
+                <span asp-validation-for="strDescripcion" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="strHp" class="control-label"></label>
+                <input asp-for="strHp" class="form-control" />
+                <span asp-validation-for="strHp" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="strNm" class="control-label"></label>
+                <input asp-for="strNm" class="form-control" />
+                <span asp-validation-for="strNm" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mt-3">
+                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

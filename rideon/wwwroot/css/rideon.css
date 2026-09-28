@@ -1,0 +1,93 @@
+﻿/* rideon.css: estilos globales para todas las vistas CRUD */
+
+.rideon-container {
+ 
+    background: linear-gradient(to right, rgba(125, 241, 239, 0.2), rgba(72, 216, 213, 0.2));
+    padding: 30px;
+    border-radius: 10px;
+}
+
+
+.rideon-title {
+    text-align: center;
+    font-weight: 700;
+    color: rgba(0, 0, 0, 0.7);
+}
+
+.card {
+    border: none;
+    border-radius: 10px;
+}
+
+.card-body {
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 25px;
+    border-radius: 10px;
+}
+
+.table {
+    background-color: rgba(255, 255, 255, 0.95);
+}
+
+    .table thead th {
+        color: #fff;
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+
+.btn-primary {
+    background: linear-gradient(to right, #7DF1EF, #48D8D5);
+    border: none;
+    color: #fff;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+    .btn-primary:hover,
+    .btn-primary:focus,
+    .btn-primary:active {
+        background-color: #fff;
+        color: #000;
+    }
+
+.btn-secondary {
+    background-color: #7DF1EF;
+    border-color: #7DF1EF;
+    color: #000;
+}
+
+    .btn-secondary:hover {
+        background-color: #57e3e7;
+        border-color: #57e3e7;
+        color: #000;
+    }
+
+.btn-danger {
+    background-color: #ff6b6b;
+    border-color: #ff6b6b;
+    color: #fff;
+}
+
+    .btn-danger:hover {
+        background-color: #e55a5a;
+        border-color: #e55a5a;
+    }
+
+.form-label {
+    font-weight: 600;
+}
+
+.form-check-label {
+    font-weight: 500;
+}
+.btn-rideon {
+    background: linear-gradient(to right, #7DF1EF, #48D8D5);
+    color: white;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+    .btn-rideon:hover,
+    .btn-rideon:focus {
+        background: white;
+        color: black;
+    }

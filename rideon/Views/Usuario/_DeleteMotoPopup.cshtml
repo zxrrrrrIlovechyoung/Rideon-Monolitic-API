@@ -1,0 +1,15 @@
+﻿@model dynamic
+<div class="popup-overlay" id="deleteMotoPopup">
+    <div class="popup-content">
+        <span class="close-popup" id="closeDeleteMoto">&times;</span>
+        <h2>Eliminar moto</h2>
+        <p>Para confirmar la eliminación de la moto, escribe tu contraseña:</p>
+
+        <form method="post" action="/UsuUsuarios/EliminarMoto" class="popup-form">
+            <input type="password" name="password" placeholder="Contraseña" required />
+            <input type="hidden" name="idMoto" id="idMotoEliminar" />
+
+            <button type="submit" class="btn-gradient">Eliminar</button>
+        </form>
+    </div>
+</div>
